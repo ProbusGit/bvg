@@ -21,6 +21,11 @@ const LoginPage = () => {
   const navigation = useNavigation();
 
   const handleLogin = async () => {
+    await AsyncStorage.setItem('username', username);
+    await AsyncStorage.setItem('password', password);
+    // await AsyncStorage.setItem('userId', data.data.userId.toString());
+    navigation.replace('web', {username, password});
+    return;
     // Validate username
     if (username.trim() === '') {
       setUsernameError('Username cannot be empty');
@@ -38,6 +43,7 @@ const LoginPage = () => {
     // Proceed with login logic if both username and password are valid
     if (username.trim() !== '' && password.trim() !== '') {
       setLoading(true); // Start loading
+      navigation.replace('web', {username, password});
       try {
         const response = await fetch('http://97.74.95.178:8084/login', {
           method: 'POST',

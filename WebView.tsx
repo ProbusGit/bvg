@@ -23,13 +23,13 @@ const MyWebView = () => {
   const webViewRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [currentUrl, setCurrentUrl] = useState('https://bvglens.com/LENSAPP');
+  const [currentUrl, setCurrentUrl] = useState('https://bvgindex.com/KSA/');
   const [canGoBack, setCanGoBack] = useState(false);
   const [username, setUsername] = useState(paramUsername);
   const [password, setPassword] = useState(paramPassword);
 
-  const loginUrl = 'https://bvglens.com/LENSAPP';
-  const successUrl = 'https://bvglens.com/LENSAPP';
+  const loginUrl = 'https://bvgindex.com/BPCL';
+  const successUrl = 'https://bvgindex.com/BPCL';
 
   useEffect(() => {
     const fetchCredentials = async () => {
@@ -42,7 +42,7 @@ const MyWebView = () => {
     };
 
     const checkCookies = async () => {
-      const cookies = await CookieManager.get('https://bvglens.com/LENSAPP');
+      const cookies = await CookieManager.get('https://bvgindex.com/BPCL');
       if (cookies && Object.keys(cookies).length > 0) {
         // console.log('Cookies found:', cookies);
         setIsLoggedIn(true);
