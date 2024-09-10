@@ -28,7 +28,7 @@ const MyWebView = () => {
   });
 
   const encodedPassword = encodeURIComponent(credentials.password);
-  const loginUrl = `https://bvgindex.com/BPCL/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`;
+  const loginUrl = `https://bvgindex.com/KSA/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`;
   const successUrl = loginUrl;
   const [currentUrl, setCurrentUrl] = useState(loginUrl);
 
@@ -73,7 +73,8 @@ const MyWebView = () => {
   const handleNavigationStateChange = navState => {
     setCanGoBack(navState.canGoBack);
     if (navState.url.includes(successUrl)) {
-      CookieManager.get(`https://bvgindex.com/BPCL/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`).then(cookies => {
+      // https://bvgindex.com/KSA/Home/Login1
+      CookieManager.get(`https://bvgindex.com/KSA/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`).then(cookies => {
         setIsLoggedIn(true);
         setCurrentUrl(successUrl);
       });

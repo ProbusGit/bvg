@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const AUTH_TOkEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTcxNDc4ODAsImlzcyI6Imh0dHA6Ly9CVkdCUENMLmNvbSIsImF1ZCI6Imh0dHA6Ly9CVkdCUENMLmNvbSJ9.LR_mpB9tcZEeI8sdq69Hct39PoRGPjYbH5HNuq7Uy1A'
+const AUTH_TOkEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTcxNTIzNzEsImlzcyI6Imh0dHA6Ly9CVkdLc2EuY29tIiwiYXVkIjoiaHR0cDovL0JWR0tzYS5jb20ifQ.g3ATL1osYGbI7bFQmwIN69M02HIUe167egKv2W_GNWc'
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +39,7 @@ const LoginPage = () => {
     if (username.trim() !== '' && password.trim() !== '') {
       setLoading(true); // Start loading
       try {
-        const response = await fetch('http://49.248.211.162:8092/api/login', {
+        const response = await fetch('http://49.248.211.162:8091/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
