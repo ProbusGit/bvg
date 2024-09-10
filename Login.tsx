@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+const AUTH_TOkEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTcxNDc4ODAsImlzcyI6Imh0dHA6Ly9CVkdCUENMLmNvbSIsImF1ZCI6Imh0dHA6Ly9CVkdCUENMLmNvbSJ9.LR_mpB9tcZEeI8sdq69Hct39PoRGPjYbH5HNuq7Uy1A'
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,13 +39,14 @@ const LoginPage = () => {
     if (username.trim() !== '' && password.trim() !== '') {
       setLoading(true); // Start loading
       try {
-        const response = await fetch('http://97.74.95.178:8084/login', {
+        const response = await fetch('http://49.248.211.162:8092/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${AUTH_TOkEN}`, // Add the Bearer token here
           },
           body: JSON.stringify({
-            userName: username,
+            loginId: username,
             password: password,
           }),
         });
@@ -57,7 +58,7 @@ const LoginPage = () => {
           // Store credentials in AsyncStorage
           await AsyncStorage.setItem('username', username);
           await AsyncStorage.setItem('password', password);
-          await AsyncStorage.setItem('userId', data.data.userId.toString());
+          await AsyncStorage.setItem('userId', data.data.employeeId.toString());
           await AsyncStorage.setItem('employeeName', data.data.employeeName);
           // Navigate to the next screen if login is successful
           setLoading(false); // Stop loading
