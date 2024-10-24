@@ -76,7 +76,7 @@ android {
 
     namespace "com.bvglens"
     defaultConfig {
-        applicationId "com.techonbpcl"
+        applicationId "com.bvglens"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
