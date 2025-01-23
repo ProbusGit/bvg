@@ -8,6 +8,8 @@ import {
   StyleSheet,
   Image,
   Alert,
+  Platform,
+  ScrollView
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,7 +21,6 @@ const LoginPage = () => {
   const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
-
   const handleLogin = async () => {
     // Validate username
     if (username.trim() === '') {
@@ -80,12 +81,13 @@ const LoginPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Spinner
+   <ScrollView>
+     <View style={styles.container}>
+    {  loading&&<Spinner
         visible={loading}
         textContent={'Loading...'}
         textStyle={styles.spinnerTextStyle}
-      />
+      />}
       <Image style={styles.logo} source={require('./assets/bvg_logo.webp')} />
 
       <View style={styles.inputView}>
@@ -114,10 +116,11 @@ const LoginPage = () => {
         <Text style={styles.errorText}>{passwordError}</Text>
       ) : null}
 
-      <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+      <TouchableOpacity style={styles.loginBtn}  onPress={loading ? null : handleLogin} >
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
     </View>
+   </ScrollView>
   );
 };
 

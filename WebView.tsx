@@ -5,8 +5,7 @@ import {
   BackHandler,
   Alert,
   StyleSheet,
-  TouchableOpacity,
-  Image,
+  ActivityIndicator,
   StatusBar,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
@@ -28,8 +27,8 @@ const MyWebView = () => {
   });
 
   const encodedPassword = encodeURIComponent(credentials.password);
-  console.log(credentials)
-  const loginUrl = `https://bvglens.com/LENSAPP/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`;
+  console.log(credentials);
+  const loginUrl = `https://ekstasis.net/qc/Home/AppCall/?username=snehal&password=1`;
   const successUrl = loginUrl;
   const [currentUrl, setCurrentUrl] = useState(loginUrl);
 
@@ -87,21 +86,21 @@ const MyWebView = () => {
     setCurrentUrl(loginUrl);
   };
 
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" hidden />
       <Header />
+      {loading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#009efb" />
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      )}
       <WebView
         source={{uri: currentUrl}}
-        style={{flex: 1}}
+        onLoadStart={() => setLoading(true)}
+        onLoadEnd={() => setLoading(false)}
+        style={{flex: 1, display: loading ? 'none' : 'flex'}}
         ref={webViewRef}
         onNavigationStateChange={handleNavigationStateChange}
       />
@@ -128,9 +127,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   loadingContainer: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    zIndex: 1,
+  },
+  loadingText: {
+    marginTop: 10,
+    color: '#fff',
+    fontSize: 16,
   },
 });
 
