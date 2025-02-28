@@ -14,6 +14,7 @@ import CookieManager from '@react-native-cookies/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRoute} from '@react-navigation/native';
 import Header from './src/header';
+import autoLoginUtil from './helper/web';
 
 const MyWebView = () => {
   const route = useRoute();
@@ -30,6 +31,7 @@ const MyWebView = () => {
   const encodedPassword = encodeURIComponent(credentials.password);
   const loginUrl = `https://bvgindex.com/KSA/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`;
   const successUrl = loginUrl;
+  const autoLoginscript =autoLoginUtil(paramUsername,paramPassword)
   const [currentUrl, setCurrentUrl] = useState(loginUrl);
 
   useEffect(() => {
@@ -100,8 +102,9 @@ const MyWebView = () => {
       <StatusBar barStyle="light-content" hidden />
       <Header />
       <WebView
-        source={{uri: currentUrl}}
+        source={{uri: "https://bvgindex.com/VW"}}
         style={{flex: 1}}
+        injectedJavaScript={autoLoginscript}
         ref={webViewRef}
         onNavigationStateChange={handleNavigationStateChange}
       />

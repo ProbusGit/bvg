@@ -21,6 +21,7 @@ const LoginPage = () => {
   const navigation = useNavigation();
 
   const handleLogin = async () => {
+
     // Validate username
     if (username.trim() === '') {
       setUsernameError('Username cannot be empty');
@@ -34,7 +35,14 @@ const LoginPage = () => {
     } else {
       setPasswordError('');
     }
-
+    await AsyncStorage.setItem('username', username);
+    await AsyncStorage.setItem('password', password);
+    // await AsyncStorage.setItem('userId', data.data.employeeId.toString());
+    // await AsyncStorage.setItem('employeeName', data.data.employeeName);
+    // Navigate to the next screen if login is successful
+    setLoading(false); // Stop loading
+    navigation.replace('web', {username, password});
+    return
     // Proceed with login logic if both username and password are valid
     if (username.trim() !== '' && password.trim() !== '') {
       setLoading(true); // Start loading
