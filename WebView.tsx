@@ -28,7 +28,8 @@ const MyWebView = () => {
 
   const encodedPassword = encodeURIComponent(credentials.password);
   console.log(credentials);
-  const loginUrl = `https://ekstasis.net/qc/Home/AppCall/?username=snehal&password=1`;
+
+  const loginUrl = `https://bvgindex.com/Index/Home/Login1?LoginId=8962384238&Password=BVG@123%23`;
   const successUrl = loginUrl;
   const [currentUrl, setCurrentUrl] = useState(loginUrl);
 
