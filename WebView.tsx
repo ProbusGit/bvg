@@ -27,11 +27,11 @@ const MyWebView = () => {
   });
 
   const encodedPassword = encodeURIComponent(credentials.password);
-  console.log(credentials);
-  const loginUrl = `https://ekstasis.net/qc/Home/AppCall/?username=snehal&password=1`;
+  console.log(credentials)
+  const loginUrl = `https://bvglens.com/LENSAPP/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`;
   const successUrl = loginUrl;
   const [currentUrl, setCurrentUrl] = useState(loginUrl);
-
+  console.log('currentUrl', currentUrl);
   useEffect(() => {
     const fetchCredentialsAndCookies = async () => {
       let username = credentials.username;
@@ -91,18 +91,38 @@ const MyWebView = () => {
       <StatusBar barStyle="light-content" hidden />
       <Header />
       {loading && (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#009efb" />
-          <Text style={styles.loadingText}>Loading...</Text>
-        </View>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#009efb" />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
       )}
       <WebView
-        source={{uri: currentUrl}}
-        onLoadStart={() => setLoading(true)}
-        onLoadEnd={() => setLoading(false)}
-        style={{flex: 1, display: loading ? 'none' : 'flex'}}
-        ref={webViewRef}
-        onNavigationStateChange={handleNavigationStateChange}
+      source={{uri: currentUrl}}
+      onLoadStart={() => setLoading(true)}
+      onLoadEnd={() => setLoading(false)}
+      style={{flex: 1, display: loading ? 'none' : 'flex'}}
+      ref={webViewRef}
+      onNavigationStateChange={handleNavigationStateChange}
+      onHttpError={() => {
+        Alert.alert(
+        'Error',
+        'An error occurred while loading the page.',
+        [
+          {text: 'Retry', onPress: () => webViewRef.current?.reload()},
+          {text: 'Cancel', style: 'cancel'},
+        ]
+        );
+      }}
+      onError={() => {
+        Alert.alert(
+        'Error',
+        'An error occurred while loading the page.',
+        [
+          {text: 'Retry', onPress: () => webViewRef.current?.reload()},
+          {text: 'Cancel', style: 'cancel'},
+        ]
+        );
+      }}
       />
     </View>
   );
