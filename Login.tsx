@@ -11,13 +11,14 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const AUTH_TOkEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTcxNTIzNzEsImlzcyI6Imh0dHA6Ly9CVkdLc2EuY29tIiwiYXVkIjoiaHR0cDovL0JWR0tzYS5jb20ifQ.g3ATL1osYGbI7bFQmwIN69M02HIUe167egKv2W_GNWc'
+const AUTH_TOkEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTcxNTIzNzEsImlzcyI6Imh0dHA6Ly9CVkdLc2EuY29tIiwiYXVkIjoiaHR0cDovL0JWR0tzYS5jb20ifQ.g3ATL1osYGbI7bFQmwIN69M02HIUe167egKv2W_GNWc';
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
 
   const handleLogin = async () => {
@@ -41,13 +42,13 @@ const LoginPage = () => {
     // await AsyncStorage.setItem('employeeName', data.data.employeeName);
     // Navigate to the next screen if login is successful
     setLoading(false); // Stop loading
-    navigation.replace('web', {username, password});
-    return
+    // navigation.replace('web', {username, password});
+    // return
     // Proceed with login logic if both username and password are valid
     if (username.trim() !== '' && password.trim() !== '') {
       setLoading(true); // Start loading
       try {
-        const response = await fetch('http://49.248.211.162:8091/api/login', {
+        const response = await fetch('http://115.124.97.70:8093/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -70,7 +71,9 @@ const LoginPage = () => {
           await AsyncStorage.setItem('employeeName', data.data.employeeName);
           // Navigate to the next screen if login is successful
           setLoading(false); // Stop loading
-          navigation.replace('web', {username, password});
+          // navigation.replace('web', {username, password});
+          navigation.replace('main');
+
         } else {
           // Handle login failure
           setLoading(false); // Stop loading
@@ -82,7 +85,8 @@ const LoginPage = () => {
       } catch (error) {
         // Handle network or other errors
         setLoading(false); // Stop loading
-        Alert.alert('Error', 'Something went wrong. Please try again later.');
+        Alert.alert('Login Failed',
+            error?.data?.message || 'Something went wrong. Please try again later.');
       }
     }
   };
@@ -110,13 +114,23 @@ const LoginPage = () => {
       ) : null}
 
       <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={text => setPassword(text)}
-        />
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TextInput
+        style={[styles.inputText, { flex: 1 }]}
+        placeholder="Password"
+        placeholderTextColor="#003f5c"
+        secureTextEntry={!showPassword}
+        onChangeText={text => setPassword(text)}
+        value={password}
+          />
+          <TouchableOpacity onPress={() => setShowPassword(prev => !prev)}>
+        <Text style={{ padding: 8 }}>
+            <Text style={{ fontSize: 22 }}>
+              {!showPassword ? '🔒' : '🔓'}
+            </Text>
+        </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       {passwordError ? (
         <Text style={styles.errorText}>{passwordError}</Text>
