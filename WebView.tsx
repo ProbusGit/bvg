@@ -32,29 +32,8 @@ const MyWebView = () => {
     username: null,
     password: null,
   });
-  const BASE_URL = 'https://bvgindex.com/VW';
+  const BASE_URL = 'https://bvgagrotech.in/';
   console.log('BASE_URL----',BASE_URL)
-
-  // const encodedPassword = encodeURIComponent(credentials.password);
-  // //const loginUrl = `https://bvgindex.com/KSA/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`;
-  // const autoLoginScript = autoLoginUtil(paramUsername, paramPassword);
-  useEffect(() => {
-    const fetchCredentials = async () => {
-      const username = await AsyncStorage.getItem('username');
-      const password = await AsyncStorage.getItem('password');
-      setCredentials({ username: username || '', password: password || '' });
-      if (username && password) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-      setLoading(false);
-      
-    };
-    fetchCredentials();
-  }, []);
-const encodedPassword = credentials.password && encodeURIComponent(credentials.password);
-const autoLoginScript = credentials.password && autoLoginUtil(credentials.username, credentials.password);
 
   // Check network connectivity 
   useEffect(() => {
@@ -76,17 +55,7 @@ const autoLoginScript = credentials.password && autoLoginUtil(credentials.userna
   useEffect(() => {
     const fetchCredentialsAndCookies = async () => {
       try {
-        let username = credentials.username;
-        let password = credentials.password;
-
-        if (!username || !password) {
-          username = await AsyncStorage.getItem('username');
-          password = await AsyncStorage.getItem('password');
-          if (username && password) {
-            setCredentials({ username, password });
-          }
-        }
-
+       
         const cookies = await CookieManager.get(BASE_URL);
         if (cookies && Object.keys(cookies).length > 0) {
           setIsLoggedIn(true);
@@ -123,7 +92,7 @@ const autoLoginScript = credentials.password && autoLoginUtil(credentials.userna
     setCanGoBack(navState.canGoBack);
     console.log('Navigation State:', navState);
     // Check if we've reached a successful login page
-    if (navState.url && navState?.url?.includes('User/User/Dashboard') || navState?.url?.includes('Home/Login1')) {
+    if (navState.url != BASE_URL) {
       CookieManager.get(BASE_URL).then(cookies => {
         if (cookies && Object.keys(cookies).length > 0) {
           setIsLoggedIn(true);
@@ -146,9 +115,7 @@ const autoLoginScript = credentials.password && autoLoginUtil(credentials.userna
     // Auto-retry for certain errors
     if (nativeEvent?.description?.includes('ERR_CONNECTION_RESET') || 
         nativeEvent?.description.includes('ERR_TIMED_OUT')) {
-      setTimeout(() => webViewRef.current?.reload(), 2000);
-      await AsyncStorage.clear();
-                navigation?.replace('login')
+      setTimeout(() => webViewRef.current?.reload(), 1000);
     }
   };
 
@@ -207,10 +174,10 @@ const autoLoginScript = credentials.password && autoLoginUtil(credentials.userna
       
       <WebView
         ref={webViewRef}
-        // source={{ uri: BASE_URL }}
-        source={{ uri:  'https://bvgindex.com/VW' }}
+        source={{ uri: BASE_URL }}
+        // source={{ uri:  'https://bvgindex.com/VW' }}
         style={[styles.webview, hasError && styles.hiddenWebview]}
-        injectedJavaScript={autoLoginScript}
+        // injectedJavaScript={autoLoginScript}
         onNavigationStateChange={handleNavigationStateChange}
         onLoadProgress={handleLoadProgress}
         onError={handleError}

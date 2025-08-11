@@ -52,12 +52,13 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="splash" component={SplashScreen} />
-        <Stack.Screen name="login" component={LoginPage} />
+        <Stack.Screen name="web" component={MyWebView} />
+        {/* <Stack.Screen name="login" component={LoginPage} />
         <Stack.Screen 
           name="main" 
           component={MainTabs} 
           options={{ headerShown: false }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

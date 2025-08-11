@@ -11,19 +11,12 @@ const SplashScreen = () => {
   useEffect(() => {
     const checkCredentials = async () => {
       try {
-        const username = await AsyncStorage.getItem('username');
-        const password = await AsyncStorage.getItem('password');
         
-       
-        if (username && password) {
-          // navigation.replace('main');
-          navigation.replace('main');
-        } else {
-          navigation.replace('login');
-        }
+          navigation.replace('web');
+        
       } catch (error) {
         console.error('Error checking credentials:', error.message);
-        navigation.replace('login');
+        navigation.replace('web');
       }
     };
 
