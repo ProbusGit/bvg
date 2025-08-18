@@ -48,11 +48,11 @@ const LoginPage = () => {
     if (username.trim() !== '' && password.trim() !== '') {
       setLoading(true); // Start loading
       try {
-        const response = await fetch('http://115.124.97.70:8093/api/login', {
+        const response = await fetch('http://115.124.97.70:8094/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${AUTH_TOkEN}`, // Add the Bearer token here
+            //'Authorization': `Bearer ${AUTH_TOkEN}`, // Add the Bearer token here
           },
           body: JSON.stringify({
             loginId: username,
@@ -63,11 +63,11 @@ const LoginPage = () => {
         const data = await response.json();
 
         if (response.ok) {
-          console.log('response', response);
+          console.log('response ======', response);
           // Store credentials in AsyncStorage
           await AsyncStorage.setItem('username', username);
           await AsyncStorage.setItem('password', password);
-          await AsyncStorage.setItem('userId', data.data.employeeId.toString());
+          data.data.employeeId != null && await AsyncStorage.setItem('userId', data.data.employeeId.toString());
           await AsyncStorage.setItem('employeeName', data.data.employeeName);
           // Navigate to the next screen if login is successful
           setLoading(false); // Stop loading
@@ -83,6 +83,7 @@ const LoginPage = () => {
           );
         }
       } catch (error) {
+        console.error('Login error:', error);
         // Handle network or other errors
         setLoading(false); // Stop loading
         Alert.alert('Login Failed',

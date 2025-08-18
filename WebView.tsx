@@ -19,8 +19,8 @@ import NetInfo from '@react-native-community/netinfo';
 const MyWebView = () => {
   const route = useRoute();
   // const { username: paramUsername, password: paramPassword } = route.params || {};
-  // console.log('Route Params:', route.params);
-  const webViewRef = useRef(null);
+  const webViewRef = useRef<WebViewType>(null);
+  // const webViewRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [canGoBack, setCanGoBack] = useState(false);
@@ -208,7 +208,7 @@ const autoLoginScript = credentials.password && autoLoginUtil(credentials.userna
       <WebView
         ref={webViewRef}
         // source={{ uri: BASE_URL }}
-        source={{ uri:  'https://bvgindex.com/VW' }}
+        source={{ uri:  'https://bvgindex.com/cbse' }}
         style={[styles.webview, hasError && styles.hiddenWebview]}
         injectedJavaScript={autoLoginScript}
         onNavigationStateChange={handleNavigationStateChange}
@@ -216,6 +216,7 @@ const autoLoginScript = credentials.password && autoLoginUtil(credentials.userna
         onError={handleError}
         onHttpError={(syntheticEvent) => {
           console.log('HTTP error:', syntheticEvent.nativeEvent.statusCode);
+          webViewRef.current?.reload();
           setHasError(true);
         }}
         onContentProcessDidTerminate={() => {
