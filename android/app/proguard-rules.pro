@@ -8,3 +8,10 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+-dontwarn com.google.mlkit.vision.barcode.Barcode
+-dontwarn com.google.mlkit.vision.common.internal.Detector
+-keepclassmembers class **.R$* {public static <fields>;} 
+-keep class **.R$*
+-keep class com.facebook.react.** { *; }
+-keep class okhttp3.** { *; }
+-keep class okio.** { *; }

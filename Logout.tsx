@@ -51,7 +51,7 @@ const LogoutScreen: React.FC = () => {
       {isLoggingOut ? (
         <>
           <Text>Logging out...</Text>
-              <Text>
+              <Text style={{ color: 'black' }}>
               If you are not redirected,{' '}
               <TouchableOpacity onPress={() => {logout()}}>
                 <Text style={{ color: 'blue' }}>tap here to login</Text>
@@ -62,14 +62,14 @@ const LogoutScreen: React.FC = () => {
         </>
       ) : (
         <View>
-          <Text>
+          <Text style={{ color: 'black' }}>
               If you are not redirected,{' '}
               <TouchableOpacity onPress={() =>{logout()}}>
                 <Text style={{ color: 'blue' }}>tap here to login</Text>
               </TouchableOpacity>
               .
               </Text>
-        <Text>Awaiting confirmation...</Text> 
+        <Text style={{ color: 'black' }}>Awaiting confirmation...</Text> 
         </View>
       )}
     </View>
