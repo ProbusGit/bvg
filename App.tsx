@@ -12,7 +12,7 @@ function App() {
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='web' screenOptions={{headerShown: false}}>
+        <Stack.Navigator initialRouteName='splash' screenOptions={{headerShown: false}}>
           <Stack.Screen name="splash" component={SplashScreen} />
           <Stack.Screen name="login" component={LoginPage} />
           <Stack.Screen name="web" component={MyWebView} />
