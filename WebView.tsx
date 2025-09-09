@@ -32,7 +32,7 @@ const MyWebView = () => {
     username: null,
     password: null,
   });
-  const BASE_URL = 'https://bvgindex.com/VW';
+  const BASE_URL = 'https://bvgindex.com/cbse';
   console.log('BASE_URL----',BASE_URL)
 
   // const encodedPassword = encodeURIComponent(credentials.password);

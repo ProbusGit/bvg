@@ -48,7 +48,7 @@ const LoginPage = () => {
     if (username.trim() !== '' && password.trim() !== '') {
       setLoading(true); // Start loading
       try {
-        const response = await fetch('http://115.124.97.70:8094/api/login', {
+        const response = await fetch('https://bvgindex.com/CBSE_API/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
