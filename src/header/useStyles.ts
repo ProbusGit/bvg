@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
 const useSyles = () => {
   return StyleSheet.create({
@@ -10,7 +10,7 @@ const useSyles = () => {
     },
     headerImageBackgroundView: {
       width: '100%',
-      height:130
+      height: Dimensions.get('window').height * 0.11,
     },
 
     headerImage: {

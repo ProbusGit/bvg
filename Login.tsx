@@ -8,21 +8,21 @@ import {
   StyleSheet,
   Image,
   Alert,
+  Platform,
+  ScrollView,
+  Dimensions
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const AUTH_TOkEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTcxNTIzNzEsImlzcyI6Imh0dHA6Ly9CVkdLc2EuY29tIiwiYXVkIjoiaHR0cDovL0JWR0tzYS5jb20ifQ.g3ATL1osYGbI7bFQmwIN69M02HIUe167egKv2W_GNWc';
+const AUTH_TOkEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODg5NDQ1OTksImlzcyI6Imh0dHA6Ly9CdmcuY29tIiwiYXVkIjoiaHR0cDovL0J2Zy5jb20ifQ.u4EDFpA7iW0ZCRaKHKTlWx5ZnjVSWx-Le54wMtyuHrU'
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
-
   const handleLogin = async () => {
-
     // Validate username
     if (username.trim() === '') {
       setUsernameError('Username cannot be empty');
@@ -36,14 +36,7 @@ const LoginPage = () => {
     } else {
       setPasswordError('');
     }
-    await AsyncStorage.setItem('username', username);
-    await AsyncStorage.setItem('password', password);
-    // await AsyncStorage.setItem('userId', data.data.employeeId.toString());
-    // await AsyncStorage.setItem('employeeName', data.data.employeeName);
-    // Navigate to the next screen if login is successful
-    setLoading(false); // Stop loading
-    // navigation.replace('web', {username, password});
-    // return
+
     // Proceed with login logic if both username and password are valid
     if (username.trim() !== '' && password.trim() !== '') {
       setLoading(true); // Start loading
@@ -61,9 +54,9 @@ const LoginPage = () => {
         });
 
         const data = await response.json();
-
+         console.log('data',data)
         if (response.ok) {
-          console.log('response ======', response);
+          console.log('response', response);
           // Store credentials in AsyncStorage
           await AsyncStorage.setItem('username', username);
           await AsyncStorage.setItem('password', password);
@@ -71,11 +64,11 @@ const LoginPage = () => {
           await AsyncStorage.setItem('employeeName', data.data.employeeName);
           // Navigate to the next screen if login is successful
           setLoading(false); // Stop loading
-          // navigation.replace('web', {username, password});
-          navigation.replace('main');
-
+          navigation.replace('web', {username, password});
         } else {
           // Handle login failure
+          console.log('Login failed:', data);
+          
           setLoading(false); // Stop loading
           Alert.alert(
             'Login Failed',
@@ -83,22 +76,21 @@ const LoginPage = () => {
           );
         }
       } catch (error) {
-        console.error('Login error:', error);
         // Handle network or other errors
         setLoading(false); // Stop loading
-        Alert.alert('Login Failed',
-            error?.data?.message || 'Something went wrong. Please try again later.');
+        Alert.alert('Error', 'Something went wrong. Please try again later.');
       }
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Spinner
+   <ScrollView>
+     <View style={styles.container}>
+    {  loading&&<Spinner
         visible={loading}
         textContent={'Loading...'}
         textStyle={styles.spinnerTextStyle}
-      />
+      />}
       <Image style={styles.logo} source={require('./assets/bvg_logo.webp')} />
 
       <View style={styles.inputView}>
@@ -115,34 +107,27 @@ const LoginPage = () => {
       ) : null}
 
       <View style={styles.inputView}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <TextInput
-        style={[styles.inputText, { flex: 1 }]}
-        placeholder="Password"
-        placeholderTextColor="#003f5c"
-        secureTextEntry={!showPassword}
-        onChangeText={text => setPassword(text)}
-        value={password}
-          />
-          <TouchableOpacity onPress={() => setShowPassword(prev => !prev)}>
-        <Text style={{ padding: 8 }}>
-            <Text style={{ fontSize: 22 }}>
-              {!showPassword ? '🔒' : '🔓'}
-            </Text>
-        </Text>
-          </TouchableOpacity>
-        </View>
+        <TextInput
+          style={styles.inputText}
+          placeholder="Password"
+          placeholderTextColor="#003f5c"
+          secureTextEntry={true}
+          onChangeText={text => setPassword(text)}
+        />
       </View>
       {passwordError ? (
         <Text style={styles.errorText}>{passwordError}</Text>
       ) : null}
 
-      <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+      <TouchableOpacity style={styles.loginBtn}  onPress={loading ? null : handleLogin} >
         <Text style={styles.loginText}>LOGIN</Text>
       </TouchableOpacity>
     </View>
+   </ScrollView>
   );
 };
+
+const { height: windowHeight } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -150,6 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     alignItems: 'center',
     justifyContent: 'center',
+    height: Platform.OS === 'android' ? windowHeight : '100%',
   },
   spinnerTextStyle: {
     color: '#FFF',

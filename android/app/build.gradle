@@ -79,16 +79,16 @@ android {
         applicationId "com.technoksa.cbse"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
+        versionCode 5
         versionName "1.0.2"
     }
     signingConfigs {
         release {
-    storeFile file('bvglens.keystore')
-    storePassword 'android'
-    keyAlias 'bvglens'
-    keyPassword 'android'
-}
+            storeFile file('bvgCBSE.keystore')
+            storePassword 'android'
+            keyAlias 'bvglens'
+            keyPassword 'android'
+        }
 
         debug {
             storeFile file('debug.keystore')

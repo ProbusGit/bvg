@@ -13,11 +13,10 @@ const SplashScreen = () => {
       try {
         const username = await AsyncStorage.getItem('username');
         const password = await AsyncStorage.getItem('password');
-        
+     
        
         if (username && password) {
-          // navigation.replace('main');
-          navigation.replace('main');
+          navigation.replace('web', { username, password, });
         } else {
           navigation.replace('login');
         }
