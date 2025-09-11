@@ -30,7 +30,7 @@ const MyWebView = () => {
 
   const encodedPassword = encodeURIComponent(credentials.password);
   console.log(credentials)
-  const loginUrl = `https://bvglens.com/LENSAPP/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`;
+  const loginUrl = `https://bvgindex.com/cbse/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`;
   const successUrl = loginUrl;
   const [currentUrl, setCurrentUrl] = useState(loginUrl);
   console.log('currentUrl', currentUrl);
@@ -74,8 +74,10 @@ const MyWebView = () => {
 
   const handleNavigationStateChange = navState => {
     setCanGoBack(navState.canGoBack);
+    console.log('Navigated to:', navState.url);
+    
     if (navState.url.includes(successUrl)) {
-      CookieManager.get(`https://bvglens.com/LENSAPP/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`).then(cookies => {
+      CookieManager.get(`https://bvgindex.com/cbse/Home/Login1?LoginId=${credentials.username}&Password=${encodedPassword}`).then(cookies => {
         setIsLoggedIn(true);
         setCurrentUrl(successUrl);
       });
@@ -99,13 +101,13 @@ const MyWebView = () => {
       </View>
       )}
       <WebView
-      //source={{uri: currentUrl}}
-      source={{ uri:  'https://bvgindex.com/cbse' }}
+      source={{uri: currentUrl}}
+      //source={{ uri:  'https://bvgindex.com/cbse' }}
       onLoadStart={() => setLoading(true)}
       onLoadEnd={() => setLoading(false)}
       style={{flex: 1, display: loading ? 'none' : 'flex'}}
       ref={webViewRef}
-      injectedJavaScript={autoLoginScript}
+      //injectedJavaScript={autoLoginScript}
       onNavigationStateChange={handleNavigationStateChange}
       onHttpError={() => {
         Alert.alert(
