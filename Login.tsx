@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const AUTH_TOkEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTcxNTIxNDYsImlzcyI6Imh0dHA6Ly9CdmcuY29tIiwiYXVkIjoiaHR0cDovL0J2Zy5jb20ifQ.oBCfSIfNmLRlc5CDjLbUMcoIa_8ko0gfR3LqP2D0-EI'
+const AUTH_TOkEN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODg5NDQ1OTksImlzcyI6Imh0dHA6Ly9CdmcuY29tIiwiYXVkIjoiaHR0cDovL0J2Zy5jb20ifQ.u4EDFpA7iW0ZCRaKHKTlWx5ZnjVSWx-Le54wMtyuHrU'
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
