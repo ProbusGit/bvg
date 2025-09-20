@@ -13,6 +13,7 @@ import CookieManager from '@react-native-cookies/cookies';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useRoute} from '@react-navigation/native';
 import Header from './src/header';
+import RNFS from 'react-native-fs';
 
 const MyWebView = () => {
   const route = useRoute();
@@ -86,6 +87,39 @@ const MyWebView = () => {
     setCurrentUrl(loginUrl);
   };
 
+  // Helper to handle PDF downloads
+  const handlePdfDownload = async (url: string) => {
+    try {
+      setLoading(true);
+      const fileName = url.split('/').pop() || 'download.pdf';
+      const downloadDest = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+      const options = {
+        fromUrl: url,
+        toFile: downloadDest,
+      };
+      await RNFS.downloadFile(options).promise;
+      setLoading(false);
+      Alert.alert('Download Complete', `PDF saved to: ${downloadDest}`);
+    } catch (error) {
+      setLoading(false);
+      Alert.alert('Download Failed', 'Could not download PDF.');
+    }
+  };
+
+  // Intercept navigation requests to handle PDF downloads
+  const handleShouldStartLoadWithRequest = (event: any) => {
+    console.log('Request URL:', event.url);
+    
+    if (
+      event.url.endsWith('.pdf') ||
+      event.url.includes('DownloadSalarySalipList')
+    ) {
+      handlePdfDownload(event.url);
+      return false; // Prevent WebView from loading the PDF
+    }
+    return true;
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" hidden />
@@ -103,6 +137,7 @@ const MyWebView = () => {
       style={{flex: 1, display: loading ? 'none' : 'flex'}}
       ref={webViewRef}
       onNavigationStateChange={handleNavigationStateChange}
+      onShouldStartLoadWithRequest={handleShouldStartLoadWithRequest}
       onHttpError={() => {
         Alert.alert(
         'Error',
